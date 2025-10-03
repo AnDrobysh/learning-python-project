@@ -27,9 +27,38 @@ print(str[0:6])
 print(str[0:-2])
 
 lenght = len(str)
-
+a = []
+b = []
 for i in range(2, lenght, 2):
-    print(str[i])
+    a.append(str[i])
+print(a)
 
 for i in range(1, lenght, 2):
-    print(str[i])
+    b.append(str[i])
+print(b)
+
+s = []
+i = lenght - 1
+while i != -1:
+    s.append(str[i])
+    i -= 1
+print(s)
+
+'''не добавляется f.append в if'''
+i = lenght
+print('длина i: ', i)
+while i != -1:
+    f = []
+    if i == 0:
+        f.append(i)
+        break
+
+    elif i == 1:
+        f.append(i)
+        break
+
+    elif i != 1 and i != 0:
+        f.append(str[i-1])
+        print('то что добавили', i)
+        i -= 2
+print('То, что вывели: ', f)
