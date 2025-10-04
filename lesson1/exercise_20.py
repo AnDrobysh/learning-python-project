@@ -35,30 +35,23 @@ print(a)
 
 for i in range(1, lenght, 2):
     b.append(str[i])
-print(b)
+print(''.join(b))
 
 s = []
 i = lenght - 1
 while i != -1:
     s.append(str[i])
     i -= 1
-print(s)
+print(''.join(s))
 
-'''не добавляется f.append в if'''
-i = lenght
+f = []
+i = lenght - 1
+
 print('длина i: ', i)
-while i != -1:
-    f = []
-    if i == 0:
-        f.append(i)
-        break
-
-    elif i == 1:
-        f.append(i)
-        break
-
-    elif i != 1 and i != 0:
-        f.append(str[i-1])
+while i >= 0:
+        f.append(str[i])
         print('то что добавили', i)
         i -= 2
-print('То, что вывели: ', f)
+print('То, что вывели: ', ''.join(f))
+
+print(lenght)
