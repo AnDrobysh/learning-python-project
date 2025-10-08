@@ -6,22 +6,12 @@
 
 Выведите номер, под которым Петя должен встать в строй. Если в строю есть люди с одинаковым ростом, таким же, как у Пети, то он должен встать после них.
 '''
-from lesson1.exercise_32 import max_value
 
 '''
 Это все условие но по какому принципу определять место Пети непонятно, поэтому я придумаю алгоритм сортировки  
 '''
-'''
-while True:
-    a1 = int(input('введите число: '))
-    print('введено: ', a1, 'typa: ', type(a1))
-    if a1 == 0 or a1 > 200:
-        break
-    else:
-        a.append(int(a1))
-'''
 
-print('Ввод чисел остановится если ввести 0')
+print('Ввод чисел остановится если ввести stop')
 a = []
 a1 = 0
 
@@ -31,23 +21,43 @@ while True:
         break
     a.append(int((a1)))
 
-print(a)
-
 max_value = max(a)
 min_value = min(a)
 max_value_index = a.index(max_value)
 min_value_index = a.index(min_value)
+print('Полученный массив: ', a)
+print('Длинна МАССИВА: ', len(a))
+
 i = 0
 j = 1
-while max_value_index != a[0] and min_value_index != a[-1]:
-    while j != len(a):
-        if a[i] < a[j]:
-            a[i], a[j] = a[j], a[i]
-        i += 1
-        j += 1
-        if i == len(a) - 1:
-            i = 0
-        if j > len(a):
-            j = 0
+num = 0
+quit_number = 0
+empty_number = 0
+print('ДЛИННА МААСИВА ', len(a))
+while empty_number != len(a):
+    empty_number += 1
 
-print(a)
+    print('проверяемые элементы i, j: ', a[i], a[j])
+    if a[i] < a[j]:
+        a[i], a[j] = a[j], a[i]
+        empty_number = 0
+
+    print('Получившиеся элементы i, j: ', a[i], a[j])
+    i += 1
+    j += 1
+    if i == len(a) - 1:
+        print('i дошло до значения: ', i)
+        i = 0
+        print('обнуление i: ', i)
+
+    if j == len(a):
+        print('j дошло до значения: ', j)
+        j = 1
+        print('обнуление j: ', j)
+
+    num += 1
+    print('i: ', i)
+    print('j: ', j)
+    print('МАССИВ преобразованный ', num, ' раз:', a)
+    print('Число пустоты: ', empty_number)
+print('Итоговый массив: ', a)
