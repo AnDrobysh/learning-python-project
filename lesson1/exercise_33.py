@@ -21,12 +21,7 @@ while True:
         break
     a.append(int((a1)))
 
-max_value = max(a)
-min_value = min(a)
-max_value_index = a.index(max_value)
-min_value_index = a.index(min_value)
 print('Полученный массив: ', a)
-print('Длинна МАССИВА: ', len(a))
 
 i = 0
 j = 1
@@ -37,27 +32,17 @@ print('ДЛИННА МААСИВА ', len(a))
 while empty_number != len(a):
     empty_number += 1
 
-    print('проверяемые элементы i, j: ', a[i], a[j])
     if a[i] < a[j]:
         a[i], a[j] = a[j], a[i]
         empty_number = 0
 
-    print('Получившиеся элементы i, j: ', a[i], a[j])
     i += 1
     j += 1
     if i == len(a) - 1:
-        print('i дошло до значения: ', i)
         i = 0
-        print('обнуление i: ', i)
 
     if j == len(a):
-        print('j дошло до значения: ', j)
         j = 1
-        print('обнуление j: ', j)
 
     num += 1
-    print('i: ', i)
-    print('j: ', j)
-    print('МАССИВ преобразованный ', num, ' раз:', a)
-    print('Число пустоты: ', empty_number)
 print('Итоговый массив: ', a)
