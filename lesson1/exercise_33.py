@@ -10,39 +10,44 @@ from operator import index
 
 
 print('Ввод чисел остановится если ввести stop')
-a = []
-a1 = 0
+array = []
+enter_number = 0
 
 while True:
-    a1 = input('введите число: ')
-    if a1 == 'stop':
+    enter_number = input('введите число: ')
+
+    if str(enter_number) == 'stop':
         break
-    a.append(int((a1)))
+
+    if 200 > int(enter_number) > 1:
+        array.append(int(enter_number))
+    else:
+        print('Введите другое значение')
 
 height = int(input('Введите рост Пети: '))
 if height <= 200:
-    a.append(height)
+    array.append(height)
 
 i = 0
 j = 1
 num = 0
 quit_number = 0
 empty_number = 0
-while empty_number != len(a):
+while empty_number != len(array):
     empty_number += 1
 
-    if a[i] < a[j]:
-        a[i], a[j] = a[j], a[i]
+    if array[i] < array[j]:
+        array[i], array[j] = array[j], array[i]
         empty_number = 0
 
     i += 1
     j += 1
-    if i == len(a) - 1:
+    if i == len(array) - 1:
         i = 0
 
-    if j == len(a):
+    if j == len(array):
         j = 1
 
     num += 1
-print('Список учеников по росту: ', a)
-print('Место пети от начала: ', a.index(height) + 1)
+print('Список учеников по росту: ', array)
+print('Место пети от начала: ', array.index(height) + 1)

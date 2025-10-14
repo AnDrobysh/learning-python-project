@@ -1,116 +1,119 @@
-from _pyrepl.commands import clear_screen
-import keyboard
-import numpy as np
-import time
-import os
-clear = lambda: os.system('cls')
+import random
 
+field = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],]
 
-matrix = np.array([[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],])
-'''
-def right():
-    
-def left():
-    
-def up():
+snake = [[0, 0]]
+apple = 0
+while True:
+    if apple == 0:
+        x = random.randint(0, 9)
+        y = random.randint(0, 9)
+        field[x][y] = 2
+        apple = 1
+    print(field[0])
+    print(field[1])
+    print(field[2])
+    print(field[3])
+    print(field[4])
+    print(field[5])
+    print(field[6])
+    print(field[7])
+    print(field[8])
+    print(field[9])
 
-def down():    
-'''
-iteration = 0
-snake_length = 2
-lose = 0
-position_column = 0
-position_line = 0
-current_key = ''
-up_count = 0
-left_count = 0
-down_count = 0
-right_count = 0
-print('позиция в линии в самом начале: ', position_line)
-print('right_count в самом начале: ', right_count)
-print('snake_length в самом начале: ', snake_length)
-while lose != 1:
-    # print('позиция в линии с которой заходим в циклы: ', position_line)
-    # print('right_count с которой заходим в циклы: ', right_count)
-    # print('snake_length с которой заходим в циклы: ', snake_length)
-    if keyboard.is_pressed('w'):
-        current_key = 'up'
-    elif keyboard.is_pressed('a'):
-        current_key = 'left'
-    elif keyboard.is_pressed('s'):
-        current_key = 'down'
-        print('зарегестрированна S')
-    elif keyboard.is_pressed('d'):
-        current_key = 'right'
-        print('зарегестрированна D')
+    current_key = 0
+    while current_key != '1' and current_key != '2' and current_key != '3' and current_key != '4':
+        current_key = input()
+    current_key = int(current_key)
+    if current_key == 1:
+        if snake[-1][1] == 9:
+            print('Вы проиграли')
+            print('Score: ', len(snake))
+            break
 
-    # print('current key: ', current_key)
+        if field[snake[-1][0]][snake[-1][1] + 1] != 1 and field[snake[-1][0]][snake[-1][1] + 1] != 2:
+            append = [snake[-1][0], snake[-1][1] + 1]
+            snake.append(append)
+            field[snake[0][0]][snake[0][1]] = 0
+            snake.pop(0)
 
-    if current_key == 'up':
-        matrix[position_line][position_column] += 1
+        elif field[snake[-1][0]][snake[-1][1] + 1] == 2:
+            print('попали в elif = 2')
+            append = [snake[-1][0], snake[-1][1] + 1]
+            snake.append(append)
 
-    elif current_key == 'left':
-        if left_count != snake_length:
-            matrix[position_line][(position_column + 1) - snake_length] = 0
-            position_line += 1
-            matrix[position_line][position_column] += 1
-            matrix[position_line - snake_length][position_column] = 0
-            down_count += 1
-            if position_line > len(matrix) + 1:
-                print('ВЫ ПРОИГРАЛИ')
-                break
-        elif left_count >= 0:
-            position_line += 1
-            matrix[position_line - snake_length][position_column] = 0
-            matrix[position_line][position_column] += 1
-            if position_line > len(matrix) + 1:
-                print('ВЫ ПРОИГРАЛИ')
+        if snake[-1][1] != 9:
+            if field[snake[-1][0]][snake[-1][1] + 1] == 1 or snake[-1][1] < 0:
+                print('Вы проиграли')
+                print('Score: ', len(snake))
                 break
 
-    elif current_key == 'down':
-        if down_count != snake_length:
-            matrix[position_line][(position_column + 1) - snake_length] = 0
-            position_line += 1
-            matrix[position_line][position_column] += 1
-            matrix[position_line - snake_length][position_column] = 0
-            down_count += 1
-            if position_line > len(matrix) + 1:
-                print('ВЫ ПРОИГРАЛИ')
-                break
-        elif down_count >= 0:
-            position_line += 1
-            matrix[position_line - snake_length][position_column] = 0
-            matrix[position_line][position_column] += 1
-            if position_line > len(matrix) + 1:
-                print('ВЫ ПРОИГРАЛИ')
+    if current_key == 2:
+        if field[snake[-1][0]][snake[-1][1] - 1] != 1 and field[snake[-1][0]][snake[-1][1] - 1] != 2:
+            append = [snake[-1][0], snake[-1][1] - 1]
+            snake.append(append)
+            field[snake[0][0]][snake[0][1]] = 0
+            snake.pop(0)
+
+        elif field[snake[-1][0]][snake[-1][1] - 1] == 2:
+            append = [snake[-1][0], snake[-1][1] - 1]
+            snake.append(append)
+
+        if field[snake[-1][0]][snake[-1][1] - 1] == 1 or snake[-1][1] < 0:
+            print('Вы проиграли')
+            print('Score: ', len(snake))
+            break
+
+    if current_key == 3:
+        if snake[-1][0] == 9:
+            print('Вы проиграли')
+            print('Score: ', len(snake))
+            break
+
+        if field[snake[-1][0] + 1][snake[-1][1]] != 1 and field[snake[-1][0] + 1][snake[-1][1]] != 2:
+            append = [snake[-1][0] + 1, snake[-1][1]]
+            snake.append(append)
+            field[snake[0][0]][snake[0][1]] = 0
+            snake.pop(0)
+
+        elif field[snake[-1][0] + 1][snake[-1][1]] == 2:
+            append = [snake[-1][0] + 1, snake[-1][1]]
+            snake.append(append)
+        if snake[-1][0] != 9:
+            if field[snake[-1][0] + 1][snake[-1][1]] == 1 or snake[-1][1] < 0:
+                print('Вы проиграли')
+                print('Score: ', len(snake))
                 break
 
-    elif current_key == 'right':
-        if right_count != snake_length:
-            position_column += 1
-            right_count += 1
-            matrix[position_line][position_column] += 1
-            if position_column > len(matrix) + 1:
-                print('ВЫ ПРОИГРАЛИ')
-                break
-        elif right_count >= 0:
-            position_column += 1
-            matrix[position_line][position_column - snake_length] = 0
-            matrix[position_line][position_column] += 1
-            if position_column > len(matrix) + 1:
-                print('ВЫ ПРОИГРАЛИ')
-                break
-    time.sleep(0.5)
-    print("\n" * 5)
-    print(matrix)
+    if current_key == 4:
 
+        if field[snake[-1][0] - 1][snake[-1][1]] == 2:
+            append = [snake[-1][0] - 1, snake[-1][1]]
+            snake.append(append)
 
+        elif field[snake[-1][0] - 1][snake[-1][1]] != 1 and field[snake[-1][0] - 1][snake[-1][1]] != 2:
+            append = [snake[-1][0] - 1, snake[-1][1]]
+            snake.append(append)
+            field[snake[0][0]][snake[0][1]] = 0
+            snake.pop(0)
+
+        if field[snake[-1][0] - 1][snake[-1][1]] == 1 or snake[-1][0] == -1:
+            print('Вы проиграли')
+            print('Score: ', len(snake))
+            break
+    i = 0
+    count = 0
+    for i in snake:
+        field[i[0]][i[1]] = 1
+
+    if field[x][y] != 2:
+        apple = 0
