@@ -9,13 +9,16 @@ for k in range(0, 10):
 snake = [[0, 0]]
 apple = 0
 
-while True:
-    '''Алгоритм создания яблока если прошлое съедено'''
+def create_apple(apple, field):
     if apple == 0:
         x = random.randint(0, 9)
         y = random.randint(0, 9)
         field[x][y] = 2
         apple = 1
+        return apple, field
+while True:
+    '''Алгоритм создания яблока'''
+    create_apple(apple, field)
 
     '''Алгоритм вывода поля'''
     for i in field:
@@ -43,6 +46,7 @@ while True:
             elif field[snake[-1][0]][snake[-1][1]] == 2:
                 append = [snake[-1][0], snake[-1][1]]
                 snake.append(append)
+                apple = 0
 
             elif field[snake[-1][0]][snake[-1][1]] == 1:
                 print('Вы проиграли')
@@ -59,6 +63,7 @@ while True:
             elif field[snake[-1][0]][snake[-1][1] + 1] == 2:
                 append = [snake[-1][0], snake[-1][1] + 1]
                 snake.append(append)
+                apple = 0
 
     if current_key == 2:
         if field[snake[-1][0]][snake[-1][1] - 1] != 1 and field[snake[-1][0]][snake[-1][1] - 1] != 2:
@@ -70,6 +75,7 @@ while True:
         elif field[snake[-1][0]][snake[-1][1] - 1] == 2:
             append = [snake[-1][0], snake[-1][1] - 1]
             snake.append(append)
+            apple = 0
 
         if field[snake[-1][0]][snake[-1][1] - 1] == 1 or snake[-1][1] < 0:
             print('Вы проиграли')
@@ -91,6 +97,8 @@ while True:
         elif field[snake[-1][0] + 1][snake[-1][1]] == 2:
             append = [snake[-1][0] + 1, snake[-1][1]]
             snake.append(append)
+            apple = 0
+
         if snake[-1][0] != 9:
             if field[snake[-1][0] + 1][snake[-1][1]] == 1 or snake[-1][1] < 0:
                 print('Вы проиграли')
@@ -102,6 +110,7 @@ while True:
         if field[snake[-1][0] - 1][snake[-1][1]] == 2:
             append = [snake[-1][0] - 1, snake[-1][1]]
             snake.append(append)
+            apple = 0
 
         elif field[snake[-1][0] - 1][snake[-1][1]] != 1 and field[snake[-1][0] - 1][snake[-1][1]] != 2:
             append = [snake[-1][0] - 1, snake[-1][1]]
@@ -120,5 +129,3 @@ while True:
         field[i[0]][i[1]] = 1
 
     '''Алгоритм проверки съедено ли яблоко'''
-    if field[x][y] != 2:
-        apple = 0
