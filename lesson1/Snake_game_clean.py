@@ -1,8 +1,10 @@
 import random
 game_over = False
 field = []
-snake = [[1, 2], [1, 1]]
+snake = [[1, 5], [1, 4], [1,3], [1, 2], [1, 1]]
+apple = [None, None]
 is_there_an_apple = [False]
+snake_last_cell = [None, None]
 
 '''Функция вывода ячейки'''
 def print_cell(cymboll):
@@ -15,7 +17,7 @@ def get_cell(x, y, field):
             return cell
     return None
 
-'''Функция создания змею'''
+'''Функция создания змеи'''
 def create_snake(snake, field):
     for i in snake:
         cell = get_cell(i[0], i[1], field)
@@ -31,6 +33,8 @@ def create_apple(is_there_an_apple, field):
             create_apple(is_there_an_apple, field)
         cell[3] = True
         is_there_an_apple[0] = True
+        apple[0] = x
+        apple[1] = y
 
 '''Функция создания поля'''
 def create_field(x, y):
@@ -50,23 +54,59 @@ def print_field(field):
         if cell[0] % 10 == 0:
             print()
 
+'''Функция проверки нахождения в ячейке змеи'''
+def is_there_a_snake(snake, cell_x, cell_y, field):
+    cell = get_cell(cell_x, cell_y, field)
+    print(cell[2])
+    if cell[2]:
+        print('Вы проиграли! Ваш счёт: ', len(snake))
+
 '''Функция передвижения змейки'''
 def snake_move(snake):
     current_key = input('Введите wasd')
     if current_key != 's' and current_key != 'w' and current_key != 'a' and current_key != 'd':
-        print('ВВедите корректное значение')
+        print('Введите корректное значение')
         snake_move(snake)
+    snake_last_cell[0] = snake[-1][0]
+    snake_last_cell[1] = snake[-1][1]
 
-    for s in snake:
-        match current_key:
-            case 'w':
-                s[1] += 1
-            case 'a':
-                s[0] -= 1
-            case 'd':
-                s[0] += 1
-            case 's':
-                s[1] -= 1
+    for i in range(len(snake) - 1, 0, -1):
+        snake[i][0] = snake[i - 1][0]
+        snake[i][1] = snake[i - 1][1]
+
+    match current_key:
+        case 'w':
+            cell = get_cell(snake[0][0], snake[0][1] + 1, field)
+            is_there_a_snake(snake, cell[0], cell[1], field)
+            if not cell[2]:
+                snake[0][1] = snake[0][1] + 1
+        case 'a':
+            cell = get_cell(snake[0][0] - 1, snake[0][1], field)
+            is_there_a_snake(snake, cell[0], cell[1], field)
+            if not cell[2]:
+                snake[0][0] = snake[0][0] - 1
+        case 'd':
+            cell = get_cell(snake[0][0] + 1, snake[0][1], field)
+            is_there_a_snake(snake, cell[0], cell[1], field)
+            if not cell[2]:
+                snake[0][0] = snake[0][0] + 1
+
+        case 's':
+            cell = get_cell(snake[0][0], snake[0][1] - 1, field)
+            is_there_a_snake(snake, cell[0], cell[1], field)
+            if not cell[2]:
+                snake[0][1] = snake[0][1] - 1
+
+    eat_apple(apple, snake_last_cell, snake, field)
+
+'''Функция поедания яблока'''
+def eat_apple(apple, snake_last_cell, snake, field):
+    if snake[0][0] == apple[0] and snake[0][1] == apple[1]:
+        for cell in field:
+            if snake[0] == apple:
+                cell[3] = False
+        snake.append([snake_last_cell[0], snake_last_cell[1]]); '''вот тут была ошибка, добавляли по ссылке а не по значению'''
+        is_there_an_apple[0] = False
 
 '''Функция очищения змейки'''
 def clear_snake(field):
@@ -81,3 +121,4 @@ while not game_over:
     print_field(field)
     clear_snake(field)
     snake_move(snake)
+
