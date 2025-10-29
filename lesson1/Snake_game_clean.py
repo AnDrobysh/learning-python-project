@@ -1,5 +1,5 @@
 import random
-game_over = False
+game_over = [False]
 field = []
 snake = [[1, 5], [1, 4], [1,3], [1, 2], [1, 1]]
 apple = [None, None]
@@ -54,12 +54,11 @@ def print_field(field):
         if cell[0] % 10 == 0:
             print()
 
-'''Функция проверки нахождения в ячейке змеи'''
-def is_there_a_snake(snake, cell_x, cell_y, field):
-    cell = get_cell(cell_x, cell_y, field)
-    print(cell[2])
-    if cell[2]:
-        print('Вы проиграли! Ваш счёт: ', len(snake))
+'''Функция проверки на стену'''
+def is_there_a_wall(snake):
+    if snake[0][0] == 11 or snake[0][1] == 11 or snake[0][0] == 0 or snake[0][1] == 0:
+        game_over[0] = True
+
 
 '''Функция передвижения змейки'''
 def snake_move(snake):
@@ -76,26 +75,13 @@ def snake_move(snake):
 
     match current_key:
         case 'w':
-            cell = get_cell(snake[0][0], snake[0][1] + 1, field)
-            is_there_a_snake(snake, cell[0], cell[1], field)
-            if not cell[2]:
-                snake[0][1] = snake[0][1] + 1
+            snake[0][1] = snake[0][1] + 1
         case 'a':
-            cell = get_cell(snake[0][0] - 1, snake[0][1], field)
-            is_there_a_snake(snake, cell[0], cell[1], field)
-            if not cell[2]:
-                snake[0][0] = snake[0][0] - 1
+            snake[0][0] = snake[0][0] - 1
         case 'd':
-            cell = get_cell(snake[0][0] + 1, snake[0][1], field)
-            is_there_a_snake(snake, cell[0], cell[1], field)
-            if not cell[2]:
-                snake[0][0] = snake[0][0] + 1
-
+            snake[0][0] = snake[0][0] + 1
         case 's':
-            cell = get_cell(snake[0][0], snake[0][1] - 1, field)
-            is_there_a_snake(snake, cell[0], cell[1], field)
-            if not cell[2]:
-                snake[0][1] = snake[0][1] - 1
+            snake[0][1] = snake[0][1] - 1
 
     eat_apple(apple, snake_last_cell, snake, field)
 
@@ -115,10 +101,11 @@ def clear_snake(field):
 
 '''Выполнение кода'''
 create_field(10, 10)
-while not game_over:
+while not game_over[0]:
     create_snake(snake, field)
     create_apple(is_there_an_apple, field)
     print_field(field)
     clear_snake(field)
     snake_move(snake)
-
+    is_there_a_wall(snake)
+    print("\033[H\033[J")
