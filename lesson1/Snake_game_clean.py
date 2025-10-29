@@ -1,7 +1,7 @@
 import random
 game_over = [False]
 field = []
-snake = [[1, 5], [1, 4], [1,3], [1, 2], [1, 1]]
+snake = [[1, 1], [1,2]]
 apple = [None, None]
 is_there_an_apple = [False]
 snake_last_cell = [None, None]
@@ -54,10 +54,18 @@ def print_field(field):
         if cell[0] % 10 == 0:
             print()
 
+'''Функция на наличие змеи в змее'''
+def is_snake_in_snake(snake):
+    for i in range(1, len(snake)):
+        if snake[0][0] == snake[i][0] and snake[0][1] == snake[i][1]:
+            game_over[0] = True
+            print('Вы врезались в себя')
+
 '''Функция проверки на стену'''
 def is_there_a_wall(snake):
     if snake[0][0] == 11 or snake[0][1] == 11 or snake[0][0] == 0 or snake[0][1] == 0:
         game_over[0] = True
+        print('Вы врезались в стенку')
 
 
 '''Функция передвижения змейки'''
@@ -108,4 +116,6 @@ while not game_over[0]:
     clear_snake(field)
     snake_move(snake)
     is_there_a_wall(snake)
-    print("\033[H\033[J")
+    is_snake_in_snake(snake)
+
+print('Вы проиграли! Счёт: ', len(snake))
